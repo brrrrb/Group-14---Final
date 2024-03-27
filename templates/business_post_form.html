@@ -1,0 +1,134 @@
+{% extends "_layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Create a post for your establishment</h1>
+    <form method="post" action="/business_post_form" enctype="multipart/form-data">
+        <!-- Country of place -->
+        <h5 style="margin-top: 3rem">Country of Place</h5>
+        <div class="form-floating mb-4">
+            <select class="form-select" name="countryVisited" id="countryVisited"
+                aria-label="Floating label select example" required>
+                <option selected>Country</option>
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="France">France</option>
+            </select>
+            <label for="countryVisited">Visited</label>
+        </div>
+
+        <!-- Category of place -->
+        <h5 style="margin-top: 3rem">Category of Place</h5>
+        <div class="form-floating mb-4">
+            <select class="form-select" name="eventCategory" id="eventCategory"
+                aria-label="Floating label select example" required>
+                <option selected>Category</option>
+                <option value="Activity">Activity</option>
+                <option value="Hotel">Hotel</option>
+                <option value="Food Delivery">Food Delivery</option>
+                <option value="Transportation">Transportation</option>
+            </select>
+            <label for="eventCategory">Event</label>
+        </div>
+
+        <!-- Name of Location -->
+        <h5 style="margin-top: 3rem">Name of Location</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="postTitle" id="postTitle" placeholder="Title" required>
+            <label for="postTitle">Name</label>
+        </div>
+
+
+        <!-- Location Description -->
+        <h5 style="margin-top: 3rem">Location Description</h5>
+        <div class="form-floating mb-4">
+            <textarea class="form-control" name="postDescription" id="postDescription" placeholder="Write a Description"
+                style="height: 100px;" required></textarea>
+            <label for="postDescription">Write a Description</label>
+        </div>
+
+        <!-- Address Line 1 -->
+        <h5 style="margin-top: 3rem">Address Line 1</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="addressLine1" id="addressLine1" placeholder="Address Line 1"
+                required>
+            <label for="addressLine1">Address Line 1</label>
+        </div>
+
+        <!-- Address Line 2 -->
+        <h5 style="margin-top: 3rem">Address Line 2</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="addressLine2" id="addressLine2" placeholder="Address Line 2"
+                required>
+            <label for="addressLine2">Address Line 2</label>
+        </div>
+
+        <!-- City -->
+        <h5 style="margin-top: 3rem">City</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="city" id="city" placeholder="City" required>
+            <label for="city">City</label>
+        </div>
+
+        <!-- State -->
+        <h5 style="margin-top: 3rem">State</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="state" id="state" placeholder="State" required>
+            <label for="state">State</label>
+        </div>
+
+        <!-- Website Link -->
+        <h5 style="margin-top: 3rem">Website Link</h5>
+        <div class="form-floating mb-4">
+            <input type="url" class="form-control" name="websiteLink" id="websiteLink" placeholder="Website Link"
+                required>
+            <label for="websiteLink">Website Link</label>
+        </div>
+
+        <!-- Phone Number -->
+        <h5 style="margin-top: 3rem">Phone Number</h5>
+        <div class="form-floating mb-4">
+            <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Phone Number"
+                required>
+            <label for="phoneNumber">Phone Number</label>
+        </div>
+
+        <!-- Email -->
+        <h5 style="margin-top: 3rem">Email</h5>
+        <div class="form-floating mb-4">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+            <label for="email">Email</label>
+        </div>
+
+        <!-- Hours of operation -->
+        <h5 style="margin-top: 3rem">Hours of operation</h5>
+        <div class="form-floating mb-4">
+            <textarea class="form-control" name="hoursOfOperation" id="hoursOfOperation"
+                placeholder="Hours of operation" style="height: 100px;" required></textarea>
+            <label for="hoursOfOperation">Hours of operation</label>
+        </div>
+
+        <!-- Add Pictures -->
+        <h5 style="margin-top: 3rem">Add Pictures</h5>
+        <div class="mt-3 mb-5">
+            <input class="form-control" type="file" name="addPictures" id="addPictures" multiple required>
+        </div>
+
+        <!-- Checkbox for agreement -->
+        <div class="mt-5 mb-5 form-check">
+            <input type="checkbox" class="form-check-input" name="agreementCheck" id="agreementCheck" required>
+            <label class="form-check-label" for="agreementCheck">
+                By submitting a post about our business on this platform, I, as an authorized
+                representative of the business, confirm that the information provided is accurate
+                and reflects the genuine attributes and offerings of our establishment. I understand
+                that this platform does not tolerate misleading or false representations,
+                and I agree to abide by its terms and conditions
+            </label>
+        </div>
+
+        <!-- Submit button -->
+        <div class="d-grid gap-2 mb-5">
+            <button class="btn btn-dark btn-lg" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "_layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Create a post of your vacation</h1>
+    <form method="post" action="/personal_post_form" enctype="multipart/form-data"> <!-- Country You Visited -->
+        <h5 style="margin-top: 3rem">Country You Visited</h5>
+        <div class="form-floating mb-4">
+            <select class="form-select" name="countryVisited" id="countryVisited"
+                aria-label="Floating label select example" required>
+                <option selected>Country</option>
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="France">France</option>
+            </select>
+            <label for="countryVisited">Visited</label>
+        </div>
+        <!-- Category of Event -->
+        <h5 style="margin-top: 3rem">Category of Event</h5>
+        <div class="form-floating mb-4">
+            <select class="form-select" name="eventCategory" id="eventCategory"
+                aria-label="Floating label select example" required>
+                <option selected>Category</option>
+                <option value="Activity">Activity</option>
+                <option value="Hotel">Hotel</option>
+                <option value="Food Delivery">Food Delivery</option>
+                <option value="Transportation">Transportation</option>
+            </select>
+            <label for="eventCategory">Event</label>
+        </div>
+        <!-- Post Title -->
+        <h5 style="margin-top: 3rem">Post Tile</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="postTitle" id="postTitle" placeholder="Title" required>
+            <label for="postTitle">Title</label>
+        </div>
+        <!-- Post Description -->
+        <h5 style="margin-top: 3rem">Post Description</h5>
+        <div class="form-floating mb-4">
+            <textarea class="form-control" name="postDescription" id="postDescription" placeholder="Write a Description"
+                style="height: 100px;" required></textarea>
+            <label for="postDescription">Write a Description</label>
+        </div>
+        <!-- Rate your Experience -->
+        <h5 style="margin-top: 3rem">Rate your experience</h5>
+        <div class="form-check form-check-inline mt-3 ps-5">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Terrible"
+                required>
+            <label class="form-check-label" for="inlineRadio1">Terrible</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Poor"
+                required>
+            <label class="form-check-label" for="inlineRadio2">Poor</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Average"
+                required>
+            <label class="form-check-label" for="inlineRadio3">Average</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="Good"
+                required>
+            <label class="form-check-label" for="inlineRadio4">Good</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="Excellent"
+                required>
+            <label class="form-check-label" for="inlineRadio5">Excellent</label>
+        </div>
+        <!-- Purpose of Your Trip -->
+        <h5 style="margin-top: 3rem">Purpose of your trip</h5>
+        <div class="form-check form-check-inline mt-3 ps-5">
+            <input class="form-check-input" type="radio" name="purposeOfTrip" id="purposeBusiness" value="business"
+                required>
+            <label class="form-check-label" for="purposeBusiness">Business</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="purposeOfTrip" id="purposeVacation" value="vacation"
+                required>
+            <label class="form-check-label" for="purposeVacation">Vacation</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="purposeOfTrip" id="purposeExploration"
+                value="exploration" required>
+            <label class="form-check-label" for="purposeExploration">Exploration</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="purposeOfTrip" id="purposeAdventure" value="Adventure"
+                required>
+            <label class="form-check-label" for="purposeAdventure">Adventure</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="purposeOfTrip" id="purposeOther" value="other" required>
+            <label class="form-check-label" for="purposeOther">Other</label>
+        </div>
+        <!-- Time of Visit -->
+        <h5 style="margin-top: 3rem">Time of Visit</h5>
+        <div class="form-floating mb-4">
+            <input type="month" class="form-control" name="timeOfVisit" id="timeOfVisit"
+                placeholder="Month and Year of Visit" required>
+            <label for="timeOfVisit">Time of Visit</label>
+        </div>
+        <!-- Add Pictures -->
+        <h5 style="margin-top: 3rem">Add Pictures</h5>
+        <div class="mt-3 mb-5">
+            <input class="form-control" type="file" name="addPictures" id="addPictures" multiple required>
+        </div>
+        <!-- Checkbox for agreement -->
+        <div class="mt-5 mb-5 form-check">
+            <input type="checkbox" class="form-check-input" name="agreementCheck" id="agreementCheck" required>
+            <label class="form-check-label" for="agreementCheck">
+                By submitting a review on this website, I confirm that I am providing my genuine opinion
+                based on my own personal experience, I am not affiliated with the establishment being reviewed, I have
+                not
+                been offered any incentives, monetary or otherwise, to write this review, and I understand that this
+                website
+                does not tolerate fake reviews and may take action if it is found that my review violates these terms.
+            </label>
+        </div>
+        <!-- Submit button -->
+        <div class="d-grid gap-2 mb-5">
+            <button class="btn btn-dark btn-lg" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

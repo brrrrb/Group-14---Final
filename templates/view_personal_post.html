@@ -1,0 +1,38 @@
+{% extends "_layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+            <div class="bg-white p-4 rounded-3 shadow-sm">
+                <h1 class="text-center mb-3">{{ post.title }}</h1>
+                <div class="text-end mb-5">
+                    <button type="button" class="btn btn-light btn-sm me-1" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button type="button" class="btn btn-light btn-sm me-1" title="Save">
+                        <i class="fas fa-save"></i>
+                    </button>
+                    <button type="button" class="btn btn-light btn-sm" title="Delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                <div class="d-flex justify-content-between text-secondary mb-3">
+                    <span>Country: {{ post.country }}</span>
+                    <span>Category: {{ post.category }}</span>
+                    <span>Trip Purpose: {{ post.trip_purpose }}</span>
+                    <span>Rating: {{ post.rating }}</span>
+                </div>
+                <div class="text-center mb-3">
+                    <!-- Placeholder for the image -->
+                        <div class="embed-responsive embed-responsive-4by3 mb-5"
+                            style="padding-left: 0px;  padding-right: 0px;">
+                            <img src="{{ url_for('static', filename='images/' ~ post.image_filename) }}"
+                                alt="Uploaded Image">
+                        </div>
+                </div>
+                <p class="text-center">{{ post.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
