@@ -7,6 +7,13 @@ app = Flask(__name__)
 Images = os.path.join("static", "images")
 Extensions = {"png", "jpg", "jpeg"} 
 
+itineraries = [
+    {'id': 1, 'name': 'Trip to Paris', 'destination': 'France', 'disembark_date': '2024-04-01'},
+    {'id': 2, 'name': 'Beach vacation', 'destination': 'Maldives', 'disembark_date': '2024-07-15'}
+]
+days = 0
+day_number = 1 
+
 @app.get('/')
 def index():
     return render_template('index.html')
@@ -123,6 +130,81 @@ def turkey():
 @app.route('/Serbia')
 def serbia():
     return render_template('countries/Serbia.html')
+
+
+@app.route("/all_itineraries_page")
+def all_itineraries():
+
+    return render_template("all_itineraries_page.html", itineraries=itineraries)
+
+@app.route("/edit_itinerary/<int:id>")
+def edit_itinerary(id):
+    
+    return render_template("edit_itinerary.html")
+
+@app.route("/delete_itinerary/<int:id>")
+def delete_itinerary(id):
+
+    return render_template("delete_itinerary.html")
+
+@app.route('/itinerary_creation', methods=['GET', 'POST'])
+def itinerary_creation():
+    global days
+    if request.method == 'POST':
+        name = request.form['name']
+        destination = request.form['destination']
+        disembark_date = request.form['disembark_date']
+        days = int(request.form['days'])
+
+        day_number = 1 
+
+        itinerary = {'id': len(itineraries) + 1, 'name': name, 'destination': destination, 'disembark_date': disembark_date}
+        itineraries.append(itinerary)
+
+        return redirect(url_for("itinerary_creation_step_2", day_number=day_number))
+
+    return render_template('itinerary_creation_page.html', itineraries=itineraries)
+
+
+@app.route('/itinerary_creation_step_2/<int:day_number>', methods=['GET', 'POST'])
+def itinerary_creation_step_2(day_number):
+    global days
+    activities = []  # Initialize empty list for activities
+    descriptions = []  # Initialize empty list for descriptions
+
+    if day_number > days:
+        #return "Error: Invalid day number"
+        #Go to the all itineraries page.
+        return redirect(url_for('all_itineraries'))
+    
+    if len(activities) != len(descriptions):
+            return "Error: Number of activities and descriptions don't match"
+    
+    for activity, description in zip(activities, descriptions):
+        #Process each activity and description here (temporary print statements for now)
+        print("Activity: ", activity)
+        print("Description: ", description)
+
+    if request.method == 'POST':
+        activities = request.form.getlist('activity')
+        descriptions = request.form.getlist('description')
+
+        if 'add_another' in request.form and len(activities) < 3:
+            if day_number < days:
+
+                return redirect(url_for('itinerary_creation_step_2', day_number=day_number + 1))
+            else:
+                return "It's the last day"
+            
+        else:
+            return redirect(url_for('next_day', day_number=day_number))
+    
+    return render_template('itinerary_creation_step2.html', day_number=day_number)
+
+@app.route('/next_day/<int:day_number>')
+def next_day(day_number):
+    next_day_number = day_number + 1
+    return redirect(url_for("itinerary_creation_step_2", day_number=next_day_number))
 
 if __name__ == '__main__':
     app.run(debug=True)

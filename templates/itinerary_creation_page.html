@@ -1,0 +1,34 @@
+{% extends "_layout.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Create Trip Itinerary</h2>
+        <form action="/itinerary_creation" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="destination" class="form-label">Destination</label>
+                <select class="form-select" id="destination" name="destination" required>
+                    <option value="France">France</option>
+                    <option value="Maldives">Maldives</option>
+                    <!-- Add other countries as options -->
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="disembark_date" class="form-label">Disembark Date</label>
+                <input type="date" class="form-control" id="disembark_date" name="disembark_date" required>
+            </div>
+            <div class="mb-3">
+                <label for="days" class="form-label">Number of Days</label>
+                <input type="number" class="form-control" id="days" name="days" min="1" required>
+            </div>
+            <!-- Add other fields for activities here -->
+            <button type="submit" class="btn btn-primary">Next</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "_layout.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>All Itineraries</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Destination</th>
+                    <th>Disembark Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for itinerary in itineraries %}
+                <tr>
+                    <td>{{ itinerary.name }}</td>
+                    <td>{{ itinerary.destination }}</td>
+                    <td>{{ itinerary.disembark_date }}</td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}
