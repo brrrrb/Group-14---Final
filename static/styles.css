@@ -27,3 +27,214 @@
 .country-selected h1 {
     text-align: center;
 }
+
+
+
+
+/* header and  nav bar design*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 50px; /* Adjust to the height of your footer */
+  }
+  
+  
+  header {
+    background-color: #BAC3CE;
+    padding: 10px 0;
+    text-align: center;
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 10%;
+    margin: 20px;
+  }
+  
+  .logo {
+    font-size: 24px;
+    color: #000;
+  }
+  
+  .header-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 25px;
+    font-size: 17px;
+    
+  }
+  
+  
+  .header-nav a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .signin-button {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-left: 30px;
+    
+  }
+  
+  /* body */
+  /* Hero Section Titles */
+  .hero h1 {
+    font-size: 50px; /* Increase the size as needed */
+    font-family: 'Inter', sans-serif; /* Use the Inter font */
+    margin-bottom: 20px; /* Adjust space between the h2 and h3 */
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  .hero h2 {
+    font-size: 50px; /* Increase the size as needed */
+    font-family: 'Inter', sans-serif; /* Use the Inter font */
+    text-align: center;
+  }
+  
+  .button-images {
+    display: flex;
+    justify-content: center; /* Aligns the button images in the center */
+    gap: 40px; /* Adjust the gap between the images as needed */
+    margin-top: 100px; /* Space between the title and the images */
+  }
+  
+  .button-images img {
+    width: 350px; /* Set a fixed width */
+    height: auto; /* Maintain the aspect ratio */
+  }
+  
+  .button-images .image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center-align the image and caption */
+  }
+  
+  .button-images .image-container img {
+    width: 350px; /* Adjust this value to increase the size of the images */
+    height: auto;
+    margin-bottom: 0; /* No space between the image and the caption */
+  }
+  
+  .button-images .image-caption {
+    font-size: 20px; /* Adjust this value based on your design */
+    text-align: center; /* Center the text */
+    color: #000; /* Color of the caption text */
+    margin-top: 0; /* No space between the caption and the image */
+  }
+  
+  
+  
+  /* images of top destinations design  */
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh; /* Make main take up at least the full height of the viewport */
+  }
+  
+  .destination-container {
+    display: flex; /* This will lay out its children (destination items) in a row */
+    justify-content: space-between; /* This will add space between the items */
+    align-items: center; /* This will center the items vertically */
+    padding: 20px; /* This adds some space inside the container */
+    margin-top: 20px; /* Adjust this value to control the space between the title and the images */
+  
+  }
+  
+  .destination {
+    flex: 0 1 calc(20% - 40px); /* This will make each destination take up 20% of the container's width minus 40px for margin */
+    margin: 0 20px; /* This will add 20px margin to each side of the destination */
+    text-align: center; /* This will center the text below the image */
+    margin-top: auto;
+  }
+  
+  .destination img {
+      width: 100%; /* Make the image fill the width of its container */
+      height: 200px; /* Fix the height of the images */
+      object-fit: cover; /* Cover the container with the image without stretching it */
+      border-radius: 10px; /* Rounded corners */
+    }
+    
+    .title {
+      font-size: 32px;
+      text-align: left;
+      margin-top: 50px; /* Reduced margin-top */
+      margin-bottom: 10px; /* Reduced margin-bottom */
+      margin-left: 20px;
+    }
+    
+    .destinations .content {
+      margin-top: auto; /* This will push your .destinations content to the bottom */
+    }
+    
+    
+    
+   
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  /* Footer Styles */
+  footer {
+    background-color: #333; /* Dark background for the footer */
+    color: white; /* Text color for the footer */
+    padding: 10px 20px; /* Padding inside the footer */
+    display: flex; /* Enables flexbox layout for footer children */
+    justify-content: space-between; /* Space distribution between footer children */
+    align-items: center; /* Aligns items vertically in the center */
+    text-transform: uppercase; /* Uppercase text for aesthetic */
+    position: fixed; /* Fix the footer at the bottom of the page */
+    bottom: 0; /* Anchor the footer to the bottom */
+    left: 0; /* Anchor the footer to the left */
+    right: 0; /* Anchor the footer to the right */
+    z-index: 1000; /* Ensure it sits above other content */
+  }
+  
+  .footer-content {
+    display: flex; /* Enables flexbox layout for footer content */
+    align-items: center; /* Aligns items vertically in the center */
+  }
+  
+  .footer-content span,
+  .footer-content .footer-link {
+    margin-right: 15px; /* Right margin for spacing between items */
+  }
+  
+  .footer-link {
+    color: white; /* Text color for the footer links */
+    text-decoration: none; /* Removes underline from links */
+  }
+  
+  .social-icons {
+    display: flex; /* Enables flexbox layout for social icons */
+  }
+  
+  .social-icon {
+    color: white; /* Text color for social icons */
+    font-size: 20px; /* Size of the social icons */
+    margin-left: 10px; /* Left margin for spacing between social icons */
+  }
+  
+  .social-icon:hover {
+    color: #ddd; /* Lighter text color for social icons on hover */
+  }
+  
+  
+    .btn-block {
+      display: block;
+      width: 100%;
+    }

@@ -1,9 +1,51 @@
-{% extends '_layout.html' %}
 
-{% block title %}Movie Rating App | Home{% endblock %}
+  {% extends "_layout.html" %}
+  {% block content %}
 
-{% block body %}
-<h1 class="mb-5">Movie Rating App</h1>
-<p class="mb-3">Welcome to the Moving Rating App! Here, you can create reviews of movies and save them in our in-memory database.</p>
-<p>Check out our movie rating form to get started!</p>
-{% endblock %}
+
+    <section class="hero">
+        <h1>To Travel is to Live -</h2>
+        <h2>Plan your Dream Trip Beginning to End</h3>
+            <div class="button-images">
+                <div class="image-container">
+                    <img src="static/images/discover.jpg" alt="Discover" />
+                    <span class="image-caption">Discover</span>
+                </div>
+                <div class="image-container">
+                    <img src="static/images/post.jpg" alt="Post" />
+                    <span class="image-caption">Post</span>
+                </div>
+                <div class="image-container">
+                    <img src="static/images/plan.jpg" alt="Plan Your Trip" />
+                    <span class="image-caption">Plan Your Trip</span>
+                </div>
+            </div>
+        </section>
+
+    <section class="destinations">
+        <div class="content">
+            <h2 class="title">Top vacation destinations</h2>
+        <div class="destination-container">
+            <div class="destination">
+              <img src="static/images/puertoRico.jpg" alt="Puerto Rico" />
+            </div>
+            <div class="destination">
+              <img src="static/images/italy.jpg" alt="Italy" />
+            </div>
+            <div class="destination">
+              <img src="static/images/greece.jpg" alt="Greece" />
+            </div>
+            <div class="destination">
+              <img src="static/images/hawaii2.jpg" alt="Hawaii" />
+            </div>
+            <div class="destination">
+              <img src="static/images/jamaica.jpg" alt="Jamaica" />
+            </div>
+          </div>
+    </section>
+
+{% include 'myModal.html' %} 
+{% include 'emailSignInModal.html' %} 
+{% include 'joinModal.html' %} 
+{% include 'individualAccountModal.html' %}
+{% include 'businessAccountModal.html' %}
