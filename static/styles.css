@@ -1,0 +1,29 @@
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    
+}
+
+.country {
+    width: calc(20% - 20px); 
+    margin: 25px 10px;
+    padding: 75px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-sizing: border-box; 
+    text-align: center;
+    text-decoration: none; 
+    color: inherit; 
+    position: relative; 
+    transition: box-shadow 0.3s;
+    background-color: #ccccff;
+}
+
+.country:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+}
+
+.country-selected h1 {
+    text-align: center;
+}

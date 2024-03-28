@@ -1,0 +1,32 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ selected_country }}</title>
+    <style>
+        /* Add your CSS styles here */
+        /* Example styles for demonstration */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 50px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ selected_country }}</h1>
+    <p>test</p>
+    <p>{{ selected_country }}</p>
+
+    <!-- User Posts -->
+</body>
+</html>
+{% endblock %}
+
