@@ -79,58 +79,18 @@ def personal_post_form():
 
     return render_template("personal_post_form.html")
 
+
 #Discover Page
-@app.route('/DiscoverPage')
+@app.get('/DiscoverPage')
 def discover_page():
     return render_template('discover_page.html')
 
-#Different Countries
-@app.route('/PuertoRico')
-def puerto_rico():
-    return render_template('countries/PuertoRico.html')
-@app.route('/Italy')
-def italy():
-    return render_template('countries/Italy.html')
-@app.route('/Greece')
-def greece():
-    return render_template('countries/Greece.html')
-@app.route('/Hawaii')
-def hawaii():
-    return render_template('countries/Hawaii.html')
-@app.route('/Jamaica')
-def jamaica():
-    return render_template('countries/Jamaica.html')
-@app.route('/US')
-def us():
-    return render_template('countries/US.html')
-@app.route('/Canada')
-def canada():
-    return render_template('countries/Canada.html')
-@app.route('/Australia')
-def australia():
-    return render_template('countries/Australia.html')
-@app.route('/Sweden')
-def sweden():
-    return render_template('countries/Sweden.html')
-@app.route('/China')
-def china():
-    return render_template('countries/China.html')
-@app.route('/Brazil')
-def brazil():
-    return render_template('countries/Brazil.html')
-@app.route('/Germany')
-def germany():
-    return render_template('countries/Germany.html')
-@app.route('/Russia')
-def russia():
-    return render_template('countries/Russia.html')
-@app.route('/Turkey')
-def turkey():
-    return render_template('countries/Turkey.html')
-@app.route('/Serbia')
-def serbia():
-    return render_template('countries/Serbia.html')
-
+@app.get('/discover_page_selected')
+def discover_page_selected():
+    selected_country = request.args.get('country')
+    if selected_country is None:
+        selected_country = "None" 
+    return render_template('discover_page_selected.html', selected_country=selected_country)
 
 @app.route("/all_itineraries_page")
 def all_itineraries():

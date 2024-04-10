@@ -1,32 +1,22 @@
 {% extends "_layout.html" %}
-
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ selected_country }}</title>
-    <style>
-        /* Add your CSS styles here */
-        /* Example styles for demonstration */
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        h1 {
-            margin-top: 50px;
-            font-size: 24px;
-        }
-    </style>
-</head>
-<body>
-    <h1>{{ selected_country }}</h1>
-    <p>test</p>
-    <p>{{ selected_country }}</p>
-
-    <!-- User Posts -->
-</body>
-</html>
+<link rel="stylesheet" type="text/css" href="/static/styles.css">
+<div class="countrysel">
+    <h1>Welcome to {{ selected_country }}</h1>
+    <div class="disimage">
+        <a><img src="/static/images/vacationpic.jpg"></a>
+    </div>    
+    <div class="user-posts">
+        <div class="user-post">
+            <h2>User Post 1 Title</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Posted 3 hours ago</p>
+        </div>
+        <div class="user-post">
+            <h2>User Post 2 Title</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Posted 5 hours ago</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
-

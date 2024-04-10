@@ -1,14 +1,25 @@
 .flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; 
-    
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+}
+
+.disimage {
+  margin-top: 20px;
+}
+
+.disimage img {
+  display: block; 
+  margin: 0 auto; 
+  max-width: 100%; 
+  height: 250px;
+  width: 1000px;
 }
 
 .country {
-    width: calc(20% - 20px); 
-    margin: 25px 10px;
-    padding: 75px; 
+    width: calc(25% - 20px); 
+    margin: 50px 10px;
+    padding: 100px; 
     border: 1px solid #ccc; 
     border-radius: 5px; 
     box-sizing: border-box; 
@@ -20,12 +31,29 @@
     background-color: #ccccff;
 }
 
+.countrysel {
+  text-align: center;
+}
+
 .country:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
 }
 
 .country-selected h1 {
     text-align: center;
+}
+
+.user-posts {
+  display: flex; 
+  justify-content: space-between; 
+  margin-top: 20px; 
+}
+
+.user-post {
+  width: 48%; 
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  box-sizing: border-box; 
 }
 
   .signin-button {
