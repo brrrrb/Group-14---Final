@@ -154,3 +154,147 @@
       display: block;
       width: 100%;
     }
+
+
+
+
+     /* CSS for myModal */
+  
+  .modal-content {
+    border-radius: 30px;
+    padding: 2rem;
+  }
+
+
+  .modal-header {
+    position: relative;
+    border-bottom: none;
+    padding: 1rem; 
+  }
+
+
+
+  .modal-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    margin-top: 25px;
+  }
+
+  .btn-close {
+    position: absolute;
+    top: 0.5rem; 
+    right: 0.5rem; 
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+
+
+  .btn {
+    border-radius: 30px;
+    padding: 10px 24px;
+    font-size: 25px;
+    line-height: 1.5;
+    border: 6px solid rgba(0, 0, 0, 0.125);
+    margin-bottom: 1rem; 
+
+  }
+
+
+  #googleSignIn {
+    background-color: #fff;
+    color: #000;
+    font-size: 15px;
+    margin-top: 3rem;
+
+  }
+  #emailBtn {
+    background-color: #fff;
+    color: #000;
+    font-size: 15px;
+    margin-bottom: 5rem;
+
+  }
+
+
+
+
+  .terms p {
+    font-size: 0.875rem;
+    margin-bottom: 25px;
+  }
+  .terms a {
+    color: #007bff; 
+    text-decoration: none;
+    margin-bottom: 25px;
+
+  }
+  .terms a:hover {
+    text-decoration: underline;
+    margin-bottom: 25px;
+
+  }
+
+  .terms p:first-child {
+    margin-bottom: 1rem; 
+}
+
+  .terms p:last-child {
+    margin-bottom: 1rem;
+  }
+
+
+
+  .signin-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem; 
+  }
+
+
+  #individualAccount, #businessAccount {
+    padding: 0.25rem 0.5rem; 
+    font-size: 0.8rem; 
+  }
+  
+
+  .modal-body .form-label {
+    font-size: 0.20px; 
+  }
+  
+
+
+.modal-footer .text-center p.my-4 {
+  margin-bottom: 1rem; 
+}
+
+
+.modal-footer .text-center p.mb-4 {
+  margin-top: 1rem; 
+}
+
+
+
+.modal-footer .text-center p.mb-2 {
+  margin-top: 1rem; 
+}
+
+
+
+
+.member-invite {
+  margin-bottom: 20px; 
+}
+
+.sign-in-link {
+  margin-bottom: 20px; 
+  margin-top: 0; 
+}
+
+
+.agreement-text {
+  margin-top: 30px; 
+}

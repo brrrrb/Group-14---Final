@@ -4,6 +4,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+
+
 # Personal and Business form directories and allowed extentions
 Images = os.path.join("static", "images")
 Extensions = {"png", "jpg", "jpeg"} 
@@ -18,9 +20,28 @@ itineraries = [
 days = 0
 day_number = 1 
 
-@app.get('/')
+#HOME PAGE 
+@app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/sign-in', methods=['POST'])
+def sign_in():
+    email = request.form['email']
+    password = request.form['password']
+    return redirect(url_for('index'))
+
+@app.route('/join', methods=['POST'])
+def join():
+    account_type = request.form.get('account_type') 
+    if account_type == 'individual':
+        first_name = request.form['firstName']
+        last_name = request.form['lastName']
+    elif account_type == 'business':
+        company_name = request.form['companyName']
+        ein_number = request.form['einNumber']
+    
+    return redirect(url_for('index'))
 
 # Business form submission
 @app.route("/business_post_form", methods=["GET", "POST"])
