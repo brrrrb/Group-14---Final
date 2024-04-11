@@ -1,11 +1,15 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+from datetime import datetime
 
 app = Flask(__name__)
 
 # Personal and Business form directories and allowed extentions
 Images = os.path.join("static", "images")
 Extensions = {"png", "jpg", "jpeg"} 
+
+# Dictionary to store posts
+posts = {}
 
 itineraries = [
     {'id': 1, 'name': 'Trip to Paris', 'destination': 'France', 'disembark_date': '2024-04-01'},
@@ -33,22 +37,32 @@ def business_post_form():
             "address_line_1": request.form.get("addressLine1"),
             "address_line_2": request.form.get("addressLine2"),
             "city": request.form.get("city"),
+            "zip_code": request.form.get("zipCode"),  # Add ZIP code
+            "posted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "state": request.form.get("state"),
             "website_link": request.form.get("websiteLink"),
             "phone_number": request.form.get("phoneNumber"),
             "email": request.form.get("email"),
             "hours_of_operation": request.form.get("hoursOfOperation"),
+            "type": "business",
             "agreement_check": request.form.get("agreementCheck"),
+            "comments": [],
         }
         # Uploads image file
         file = request.files.get("addPictures")
-        if file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in Extensions: # Makes sure extention is correct
-            filepath = os.path.join(Images, file.filename)
-            file.save(filepath)
-            post["image_filename"] = file.filename
-            return render_template("view_business_post.html", post=post)
+        if file and file.filename:
+            if "." in file.filename and file.filename.rsplit(".", 1)[1].lower() in Extensions:
+                filepath = os.path.join(Images, file.filename)
+                file.save(filepath)
+                post["image_filename"] = file.filename
+        
+        post_id = len(posts) + 1  # Assign unique ID to post
+        post["id"] = post_id
+        posts[post_id] = post  # Store post in dictionary
 
+        return redirect(url_for("view_business_post", post_id=post_id))
     return render_template("business_post_form.html")
+
 
 # Personal form submission
 @app.route("/personal_post_form", methods=["GET", "POST"])
@@ -59,26 +73,153 @@ def personal_post_form():
             return redirect(url_for("personal_post_form"))
         post = {
             "title": request.form.get("postTitle"),
+            "posted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "country": request.form.get("countryVisited"),
             "category": request.form.get("eventCategory"),
             "description": request.form.get("postDescription"),
             "rating": request.form.get("inlineRadioOptions"),
             "trip_purpose": request.form.get("purposeOfTrip"),
             "time_of_visit": request.form.get("timeOfVisit"),
+            "type": "personal",
             "agreement_check": request.form.get("agreementCheck"),
+            "comments": [],
         }
         # Uploads image file
         file = request.files.get("addPictures")
-        if file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in Extensions:  # Makes sure extention is correct
-            filepath = os.path.join(Images, file.filename)
-            file.save(filepath)
-            post["image_filename"] = file.filename
-            return render_template("view_personal_post.html", post=post)
+        if file and file.filename:
+            if "." in file.filename and file.filename.rsplit(".", 1)[1].lower() in Extensions:
+                filepath = os.path.join(Images, file.filename)
+                file.save(filepath)
+                post["image_filename"] = file.filename
 
+        post_id = len(posts) + 1  # Assign unique ID to post
+        post["id"] = post_id
+        posts[post_id] = post  # Store post in dictionary
 
-
+        return redirect(url_for("view_personal_post", post_id=post_id))
     return render_template("personal_post_form.html")
 
+# INCOMPLETE
+@app.route("/edit_business_post/<int:post_id>", methods=["GET", "POST"])
+def edit_business_post(post_id):
+    post = posts.get(post_id)
+    if not post:
+        return "Post not found", 404
+    if request.method == "POST":
+        post["title"] = request.form.get("postTitle")
+        post["country"] = request.form.get("countryVisited")
+        post["category"] = request.form.get("eventCategory")
+        post["description"] = request.form.get("postDescription")
+        post["zip_code"] = request.form.get("zipCode")
+        # ---undone
+        posts[post_id] = post
+        return redirect(url_for("view_business_post", post_id=post_id))
+    return render_template("edit_business_post.html", post=post)
+
+# INCOMPLETE
+@app.route("/delete_business_post/<int:post_id>")
+def delete_business_post(post_id):
+    if post_id in posts:
+        del posts[post_id]
+    return redirect(url_for("view_all_posts"))
+
+# INCOMPLETE
+@app.route("/edit_personal_post/<int:post_id>", methods=["GET", "POST"])
+def edit_personal_post(post_id):
+    post = posts.get(post_id)
+    if not post:
+        return "Post not found", 404
+    if request.method == "POST":
+        post["title"] = request.form.get("postTitle")
+        post["country"] = request.form.get("countryVisited")
+        post["category"] = request.form.get("eventCategory")
+        post["description"] = request.form.get("postDescription")
+        post["rating"] = request.form.get("inlineRadioOptions")
+        post["trip_purpose"] = request.form.get("purposeOfTrip")
+        post["time_of_visit"] = request.form.get("timeOfVisit")
+        # ---undone
+        posts[post_id] = post
+        return redirect(url_for("view_personal_post", post_id=post_id))
+    return render_template("edit_personal_post.html", post=post)
+
+# INCOMPLETE
+@app.route("/delete_personal_post/<int:post_id>")
+def delete_personal_post(post_id):
+    if post_id in posts:
+        del posts[post_id]
+    return redirect(url_for("view_all_posts"))
+
+
+# Comment on a post section
+@app.route("/add_comment/<int:post_id>", methods=["POST"])
+def add_comment(post_id):
+    post = posts.get(post_id)
+    if not post:
+        return "Post not found", 404
+    username = request.form.get("username")
+    content = request.form.get("content")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    comment = {
+        "username": username,
+        "content": content,
+        "timestamp": timestamp,
+        "edited": False,
+    }
+    post["comments"].append(comment)
+    if post["type"] == "business":
+        return redirect(url_for("view_business_post", post_id=post_id))
+    else:
+        return redirect(url_for("view_personal_post", post_id=post_id))
+
+# INCOMPLETE
+@app.route("/edit_comment/<int:post_id>/<int:comment_index>", methods=["POST"])
+def edit_comment(post_id, comment_index):
+    post = posts.get(post_id)
+    if not post or comment_index >= len(post["comments"]):
+        return "Comment not found", 404
+    post["comments"][comment_index]["content"] = request.form.get("content")
+    post["comments"][comment_index]["edited"] = True
+    if post["type"] == "business":
+        return redirect(url_for("view_business_post", post_id=post_id))
+    else:
+        return redirect(url_for("view_personal_post", post_id=post_id))
+
+
+@app.route("/delete_comment/<int:post_id>/<int:comment_index>")
+def delete_comment(post_id, comment_index):
+    post = posts.get(post_id)
+    if not post or comment_index >= len(post["comments"]):
+        return "Comment not found", 404
+    del post["comments"][comment_index]
+    if post["type"] == "business":
+        return redirect(url_for("view_business_post", post_id=post_id))
+    else:
+        return redirect(url_for("view_personal_post", post_id=post_id))
+
+
+# View a business post by ID
+@app.route("/view_business_post/<int:post_id>")
+def view_business_post(post_id):
+    post = posts.get(post_id)
+    if not post:
+        return "Post not found", 404
+    return render_template("view_business_post.html", post=post)
+
+
+# View a personal post by ID 
+@app.route("/view_personal_post/<int:post_id>")
+def view_personal_post(post_id):
+    post = posts.get(post_id)
+    if not post:
+        return "Post not found", 404
+    return render_template("view_personal_post.html", post=post)
+
+# Delete a post by ID INCOMPLETE
+@app.route("/delete_post/<int:post_id>")
+def delete_post(post_id):
+    if post_id in posts:
+        del posts[post_id]
+    return redirect(url_for("index"))
 
 #Discover Page
 @app.get('/DiscoverPage')

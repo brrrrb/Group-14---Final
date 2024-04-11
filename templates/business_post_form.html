@@ -8,10 +8,20 @@
         <div class="form-floating mb-4">
             <select class="form-select" name="countryVisited" id="countryVisited"
                 aria-label="Floating label select example" required>
-                <option selected>Country</option>
+                <option value="">Country</option>
                 <option value="United States">United States</option>
                 <option value="Canada">Canada</option>
                 <option value="France">France</option>
+                <option value="Italy">Italy</option>
+                <option value="Greece">Greece</option>
+                <option value="Jamaica">Jamaica</option>
+                <option value="Australia">Australia</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Germany">Germany</option>
+                <option value="Turkey">Turkey</option>
+                <option value="Russia">Russia</option>
+                <option value="Puerto Rico">Puerto Rico</option>
+                <option value="Sweden">Sweden</option>
             </select>
             <label for="countryVisited">Visited</label>
         </div>
@@ -21,11 +31,13 @@
         <div class="form-floating mb-4">
             <select class="form-select" name="eventCategory" id="eventCategory"
                 aria-label="Floating label select example" required>
-                <option selected>Category</option>
+                <option value="">Category</option>
                 <option value="Activity">Activity</option>
                 <option value="Hotel">Hotel</option>
                 <option value="Food Delivery">Food Delivery</option>
                 <option value="Transportation">Transportation</option>
+                <option value="Restaurants">Restaurants</option>
+                <option value="Cruises">Cruises</option>
             </select>
             <label for="eventCategory">Event</label>
         </div>
@@ -55,12 +67,11 @@
         </div>
 
         <!-- Address Line 2 -->
-        <h5 style="margin-top: 3rem">Address Line 2</h5>
+        <!-- <h5 style="margin-top: 3rem">Address Line 2</h5>
         <div class="form-floating mb-4">
-            <input type="text" class="form-control" name="addressLine2" id="addressLine2" placeholder="Address Line 2"
-                required>
+            <input type="text" class="form-control" name="addressLine2" id="addressLine2" placeholder="Address Line 2">
             <label for="addressLine2">Address Line 2</label>
-        </div>
+        </div> -->
 
         <!-- City -->
         <h5 style="margin-top: 3rem">City</h5>
@@ -75,6 +86,14 @@
             <input type="text" class="form-control" name="state" id="state" placeholder="State" required>
             <label for="state">State</label>
         </div>
+
+        <!-- ZIP Code -->
+        <h5 style="margin-top: 3rem">ZIP Code</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="zipCode" id="zipCode" placeholder="ZIP Code" required>
+            <label for="zipCode">ZIP Code</label>
+        </div>
+
 
         <!-- Website Link -->
         <h5 style="margin-top: 3rem">Website Link</h5>
@@ -108,9 +127,9 @@
         </div>
 
         <!-- Add Pictures -->
-        <h5 style="margin-top: 3rem">Add Pictures</h5>
+        <h5 style="margin-top: 3rem">Add Pictures <span style="font-weight: lighter;">(optional)</span></h5>
         <div class="mt-3 mb-5">
-            <input class="form-control" type="file" name="addPictures" id="addPictures" multiple required>
+            <input class="form-control" type="file" name="addPictures" id="addPictures" multiple>
         </div>
 
         <!-- Checkbox for agreement -->
