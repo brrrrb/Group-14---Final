@@ -1,0 +1,62 @@
+{% extends "_layout.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Edit Itinerary</h2>
+            <form method="POST" action="/edit_itinerary/{{ itinerary.itinerary_id }}">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ itinerary.name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="destination" class="form-label">Destination</label>
+                    <select class="form-select" id="destination" name="destination" required>
+                        {% for country in countries %}
+                            {% if country == itinerary.destination %}
+                                <option value="{{ country }}" selected>{{ country }}</option>
+                            {% else %}
+                                <option value="{{ country }}">{{ country }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="disembark_date" class="form-label">Disembark Date</label>
+                    <input type="date" class="form-control" id="disembark_date" name="disembark_date" value="{{ itinerary.disembark_date }}" required>
+                </div>
+                <div class="mb-3">
+                    <input type="hidden" name="days" value="{{ itinerary.days }}">
+                </div>
+    
+                <!-- Add fields for editing activities and descriptions -->
+                <h3>Edit Activities</h3>
+                {% for day, activity_list in itinerary.activities.items() %}
+                    <h4>Day {{ day }}</h4>
+                    {% set index = 0 %}
+                    {% for activity_data in activity_list %}
+                    <div class="activity_entry">
+                        <div class="mb-3">
+                            <label for="activity_{{ day }}_{{ index }}" class="form-label">Activity</label>
+                            <select class="form-select" id="activity_{{ day }}_{{ index }}" name="activities[{{ day }}][{{ index }}][activity]" required>
+                                <option value="Activity" {% if activity_data.activity == 'Activity' %} selected {% endif %}>Activity</option>
+                                <option value="Hotel" {% if activity_data.activity == 'Hotel' %} selected {% endif %}>Hotel</option>
+                                <option value="Food" {% if activity_data.activity == 'Food' %} selected {% endif %}>Food</option>
+                                <option value="Transportation" {% if activity_data.activity == 'Transportation' %} selected {% endif %}>Transportation</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description_{{ day }}_{{ index }}" class="form-label">Description</label>
+                            <textarea class="form-control" id="description_{{ day }}_{{ index }}" name="activities[{{ day }}][{{ index }}][description]" rows="3" required>{{ activity_data.description }}</textarea>
+                        </div>
+                    </div>
+                    {% set index = index + 1 %}
+                    {% endfor %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

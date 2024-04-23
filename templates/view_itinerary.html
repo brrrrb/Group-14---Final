@@ -1,0 +1,27 @@
+{% extends "_layout.html" %}
+{% block content %}
+
+<div class="container">
+    <a href = "/all_itineraries_page">Back to All Itineraries</a>
+    <h1>{{ itinerary.name }}</h1>
+    <p><strong>Destination:</strong> {{ itinerary.destination }}</p>
+    <p><strong>Disembark Date:</strong> {{ itinerary.disembark_date }}</p>
+    <p><strong>Number of Days:</strong> {{ itinerary.days }}</p>
+    
+    <h2>Activities:</h2>
+    <div>
+        <ul>
+            {% for day, day_activities in itinerary.activities.items() %}
+            <h3>Day {{ day }}</h3>
+                <ul>
+            {% for activity in day_activities %}
+                <li><strong>{{ activity.activity }}</strong>: {{ activity.description }}</li>
+                    {% endfor %}
+                </ul>        
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+
+{% endblock %}

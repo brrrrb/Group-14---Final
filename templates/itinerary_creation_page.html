@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-12">
         <h2>Create Trip Itinerary</h2>
-        <form action="/itinerary_creation" method="POST">
+        <form action="/itinerary_creation_step_2" method="POST">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -12,8 +12,14 @@
             <div class="mb-3">
                 <label for="destination" class="form-label">Destination</label>
                 <select class="form-select" id="destination" name="destination" required>
-                    <option value="France">France</option>
-                    <option value="Maldives">Maldives</option>
+                    <option value="Puerto Rico">Puerto Rico</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Greece">Greece</option>
+                    <option value="Hawaii">Hawaii</option>
+                    <option value="Jamaica">Jamaica</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Sweeden">Sweeden</option>
+                    <option value="Australia">Australia</option>
                     <!-- Add other countries as options -->
                 </select>
             </div>
@@ -30,5 +36,6 @@
         </form>
     </div>
 </div>
+
 
 {% endblock %}
