@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, session
 from datetime import datetime
 
 from src.models.itinerary import Itinerary
@@ -399,6 +399,13 @@ def edit_itinerary_post(itinerary_id):
     #     return abort(500, "Failed to update itinerary")
 
     return redirect(url_for('view_itinerary', itinerary_id=itinerary_id))
+
+
+# End user session
+@app.post('/logout')
+def logout():
+    del session['user_id']
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)

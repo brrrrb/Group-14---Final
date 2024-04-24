@@ -1,5 +1,5 @@
 -- Create User table
-CREATE TABLE User (
+CREATE TABLE IF NOT EXISTS User (
     UserID INT PRIMARY KEY,
     username VARCHAR(255),
     email VARCHAR(255),
@@ -7,7 +7,7 @@ CREATE TABLE User (
 );
 
 -- Create Post table
-CREATE TABLE Post (
+CREATE TABLE IF NOT EXISTS Post (
     ID INT PRIMARY KEY,
     userID INT,
     Title VARCHAR(255),
@@ -18,7 +18,7 @@ CREATE TABLE Post (
 );
 
 -- Create Comments table
-CREATE TABLE Comments (
+CREATE TABLE IF NOT EXISTS Comments (
     commentId INT PRIMARY KEY,
     postID INT,
     userID INT,
@@ -29,7 +29,7 @@ CREATE TABLE Comments (
 );
 
 -- Create Countries table
-CREATE TABLE Countries (
+CREATE TABLE IF NOT EXISTS Countries (
     CountryID INT PRIMARY KEY,
     countryName VARCHAR(255)
 );
