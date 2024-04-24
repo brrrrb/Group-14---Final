@@ -401,7 +401,7 @@ def edit_itinerary_post(itinerary_id):
     return redirect(url_for('view_itinerary', itinerary_id=itinerary_id))
 
 
-# End user session
+#End user session
 @app.post('/logout')
 def logout():
     del session['user_id']
