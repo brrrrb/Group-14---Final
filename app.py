@@ -21,7 +21,7 @@ from src.models.itinerary import Itinerary
 from src.repositories.itinerary_repository import get_itinerary_repo
 from src.repositories.post_repository import PostRepository
 from src.models.post import Post, Comment
-from src.repositories.user_repository import user_repository
+#from src.repositories.user_repository import user_repository
 
 
 
@@ -58,15 +58,15 @@ def join():
     password = request.form.get('password')
     if not email or not password:
         abort(400)
-    if user_repository.does_email_exist(email):
-        abort(400, "Email already exists")
+   # if user_repository.does_email_exist(email):
+       # abort(400, "Email already exists")
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    user_repository.create_user(email, hashed_password)
-    user_info = user_repository.create_user(email, password)
+    #user_repository.create_user(email, hashed_password)
+   # user_info = user_repository.create_user(email, password)
     
-    if isinstance(user_info, Exception):
-        abort(500, "Failed to create user")
-    return redirect('/')
+   # if isinstance(user_info, Exception):
+    #    abort(500, "Failed to create user")
+    #return redirect('/')
 
     
    
