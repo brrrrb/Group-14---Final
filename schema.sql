@@ -1,9 +1,9 @@
--- Create User table
-CREATE TABLE IF NOT EXISTS User (
-    UserID INT PRIMARY KEY,
-    username VARCHAR(255),
-    email VARCHAR(255),
-    password VARCHAR(255)
+-- Create User/ signup
+CREATE TABLE app_user (
+    user_id SERIAL,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (user_id)
 );
 
 -- Create Posts table

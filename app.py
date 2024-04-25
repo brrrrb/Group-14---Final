@@ -2,6 +2,13 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, session
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import bcrypt
+
+
+
+from dotenv import load_dotenv
+load_dotenv()
+
 
 app = Flask(__name__)
 
@@ -14,6 +21,9 @@ from src.models.itinerary import Itinerary
 from src.repositories.itinerary_repository import get_itinerary_repo
 from src.repositories.post_repository import PostRepository
 from src.models.post import Post, Comment
+from src.repositories.user_repository import user_repository
+
+
 
 itinerary_repository = get_itinerary_repo()
 post_repository = PostRepository()
@@ -28,6 +38,7 @@ posts = {}
 days = 0
 day_number = 1 
 
+
 #HOME PAGE 
 @app.route('/')
 def index():
@@ -39,17 +50,39 @@ def sign_in():
     password = request.form['password']
     return redirect(url_for('index'))
 
-@app.route('/join', methods=['POST'])
+
+
+@app.post('/join')
 def join():
-    account_type = request.form.get('account_type') 
-    if account_type == 'individual':
-        first_name = request.form['firstName']
-        last_name = request.form['lastName']
-    elif account_type == 'business':
-        company_name = request.form['companyName']
-        ein_number = request.form['einNumber']
+    email = request.form.get('email')
+    password = request.form.get('password')
+    if not email or not password:
+        abort(400)
+    if user_repository.does_email_exist(email):
+        abort(400, "Email already exists")
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    user_repository.create_user(email, hashed_password)
+    user_info = user_repository.create_user(email, password)
     
-    return redirect(url_for('index'))
+    if isinstance(user_info, Exception):
+        abort(500, "Failed to create user")
+    return redirect('/')
+
+    
+   
+# @app.route('/join', methods=['POST'])
+# def join():
+#     account_type = request.form.get('account_type') 
+#     if account_type == 'individual':
+#         first_name = request.form['firstName']
+#         last_name = request.form['lastName']
+#     elif account_type == 'business':
+#         company_name = request.form['companyName']
+#         ein_number = request.form['einNumber']
+    
+#     return redirect(url_for('index'))
+
+
 
 # View all posts
 @app.route('/all_posts')
