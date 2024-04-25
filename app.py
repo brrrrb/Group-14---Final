@@ -5,6 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:karam@localhost:5432/finalproject14'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 from src.models.itinerary import Itinerary
@@ -61,11 +64,6 @@ def view_post_details(post_id):
         return render_template('view_business_post.html', post=post)
     else:
         return render_template('view_personal_post.html', post=post)
-
-@app.route('/delete_post/<int:post_id>', methods=['POST'])
-def delete_post(post_id):
-    post_repository.delete_post(post_id)
-    return redirect(url_for('all_posts'))
 
 # Business form submission
 @app.route("/business_post_form", methods=["GET", "POST"])
