@@ -1,13 +1,19 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, session
 from datetime import datetime
-
-from src.models.itinerary import Itinerary
-from src.repositories.itinerary_repository import get_itinerary_repo
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+db = SQLAlchemy(app)
+
+from src.models.itinerary import Itinerary
+from src.repositories.itinerary_repository import get_itinerary_repo
+from src.repositories.post_repository import PostRepository
+from src.models.post import Post, Comment
+
 itinerary_repository = get_itinerary_repo()
+post_repository = PostRepository()
 
 # Personal and Business form directories and allowed extentions
 Images = os.path.join("static", "images")
@@ -42,31 +48,47 @@ def join():
     
     return redirect(url_for('index'))
 
+# View all posts
+@app.route('/all_posts')
+def all_posts():
+    posts = post_repository.get_all_posts()
+    return render_template('all_posts.html', posts=posts)
+
+@app.route('/view_post_details/<int:post_id>')
+def view_post_details(post_id):
+    post = post_repository.get_post_by_id(post_id)
+    if post.type == 'business':
+        return render_template('view_business_post.html', post=post)
+    else:
+        return render_template('view_personal_post.html', post=post)
+
+@app.route('/delete_post/<int:post_id>', methods=['POST'])
+def delete_post(post_id):
+    post_repository.delete_post(post_id)
+    return redirect(url_for('all_posts'))
+
 # Business form submission
 @app.route("/business_post_form", methods=["GET", "POST"])
 def business_post_form():
-    # Collects information from user's submitted form
     if request.method == "POST":
         if not request.form.get("agreementCheck"):
             return redirect(url_for("business_post_form"))
-        post = {
+        post_data = {
             "title": request.form.get("postTitle"),
+            "description": request.form.get("postDescription"),
             "country": request.form.get("countryVisited"),
             "category": request.form.get("eventCategory"),
-            "description": request.form.get("postDescription"),
+            "posted_at": datetime.now(),
+            "type": "business",
+            # Business fields
             "address_line_1": request.form.get("addressLine1"),
-            "address_line_2": request.form.get("addressLine2"),
             "city": request.form.get("city"),
-            "zip_code": request.form.get("zipCode"),  # Add ZIP code
-            "posted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "zip_code": request.form.get("zipCode"),
             "state": request.form.get("state"),
             "website_link": request.form.get("websiteLink"),
             "phone_number": request.form.get("phoneNumber"),
             "email": request.form.get("email"),
             "hours_of_operation": request.form.get("hoursOfOperation"),
-            "type": "business",
-            "agreement_check": request.form.get("agreementCheck"),
-            "comments": [],
         }
         # Uploads image file
         file = request.files.get("addPictures")
@@ -76,48 +98,35 @@ def business_post_form():
                 file.save(filepath)
                 post["image_filename"] = file.filename
         
-        post_id = len(posts) + 1  # Assign unique ID to post
-        post["id"] = post_id
-        posts[post_id] = post  # Store post in dictionary
-
-        return redirect(url_for("view_business_post", post_id=post_id))
+        
+        post = post_repository.create_post(**post_data)
+        return redirect(url_for("view_business_post", post_id=post.id))
     return render_template("business_post_form.html")
 
 
 # Personal form submission
 @app.route("/personal_post_form", methods=["GET", "POST"])
 def personal_post_form():
-    # Collects information from user's submitted form
     if request.method == "POST":
         if not request.form.get("agreementCheck"):
             return redirect(url_for("personal_post_form"))
-        post = {
+        post_data = {
             "title": request.form.get("postTitle"),
-            "posted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "description": request.form.get("postDescription"),
             "country": request.form.get("countryVisited"),
             "category": request.form.get("eventCategory"),
-            "description": request.form.get("postDescription"),
-            "rating": request.form.get("inlineRadioOptions"),
+            "posted_at": datetime.now(),
+            "type": "personal",
+            # Personal fields
             "trip_purpose": request.form.get("purposeOfTrip"),
             "time_of_visit": request.form.get("timeOfVisit"),
-            "type": "personal",
-            "agreement_check": request.form.get("agreementCheck"),
-            "comments": [],
+            "rating": request.form.get("inlineRadioOptions"),
         }
-        # Uploads image file
-        file = request.files.get("addPictures")
-        if file and file.filename:
-            if "." in file.filename and file.filename.rsplit(".", 1)[1].lower() in Extensions:
-                filepath = os.path.join(Images, file.filename)
-                file.save(filepath)
-                post["image_filename"] = file.filename
 
-        post_id = len(posts) + 1  # Assign unique ID to post
-        post["id"] = post_id
-        posts[post_id] = post  # Store post in dictionary
-
-        return redirect(url_for("view_personal_post", post_id=post_id))
+        post = post_repository.create_post(**post_data)
+        return redirect(url_for("view_personal_post", post_id=post.id))
     return render_template("personal_post_form.html")
+
 
 # INCOMPLETE
 @app.route("/edit_business_post/<int:post_id>", methods=["GET", "POST"])
