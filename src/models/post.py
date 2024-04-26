@@ -1,4 +1,4 @@
-from app import db
+from app import db, Post
 
 class Post(db.Model):
     __tablename__ = 'posts' 

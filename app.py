@@ -288,6 +288,8 @@ def discover_page():
 
 @app.get('/discover_page_selected')
 def discover_page_selected():
+    posts = Post.query.limit(2).all()
+    
     selected_country = request.args.get('country')
     if selected_country is None:
         selected_country = "None" 
