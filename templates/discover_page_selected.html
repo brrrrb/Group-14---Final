@@ -7,6 +7,26 @@
         <a><img src="/static/images/vacationpic.jpg"></a>
     </div>    
     <div class="user-posts">
+        {% for post in posts %}
+            <div class="user-post">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.description }}</p>
+                <p>Posted {{ post.posted_at }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block previous_content %}
+<!--
+<link rel="stylesheet" type="text/css" href="/static/styles.css">
+<div class="countrysel">
+    <h1>Welcome to {{ selected_country }}</h1>
+    <div class="disimage">
+        <a><img src="/static/images/vacationpic.jpg"></a>
+    </div>    
+    <div class="user-posts">
         <div class="user-post">
             <h2>User Post 1 Title</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -19,5 +39,5 @@
         </div>
     </div>
 </div>
+-->
 {% endblock %}
-
