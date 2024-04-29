@@ -51,3 +51,23 @@ CREATE TABLE IF NOT EXISTS Countries (
     countryName VARCHAR(255)
 );
 
+-- Itinerary Table
+CREATE TABLE Itinerary (
+    itinerary_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    destination VARCHAR(255) NOT NULL,
+    disembark_date DATE NOT NULL,
+    days INTEGER NOT NULL
+);
+
+-- Activities Table for Itinerary
+CREATE TABLE Activity (
+    itinerary_id INTEGER NOT NULL,
+    day INTEGER NOT NULL,
+    activity VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    PRIMARY KEY (itinerary_id, day),
+    FOREIGN KEY (itinerary_id) REFERENCES Itinerary(itinerary_id) ON DELETE CASCADE
+);
+
+
