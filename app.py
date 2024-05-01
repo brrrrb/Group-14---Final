@@ -1,8 +1,9 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, session, flash
 from datetime import datetime
+from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import bcrypt
+from flask_bcrypt import Bcrypt
 
 
 
@@ -11,8 +12,11 @@ load_dotenv()
 
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:karam@localhost:5432/finalproject14'
+# Database configuration Co-Pilot Assistance
+app.secret_key = os.getenv('APP_SECRET_KEY', 'default_fallback_secret_key')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_CONNECTION_STRING', 'sqlite:///default.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -87,7 +91,7 @@ def join():
 # View all posts
 @app.route('/all_posts')
 def all_posts():
-    posts = post_repository.get_all_posts()
+    posts = Post.query.all()
     return render_template('all_posts.html', posts=posts)
 
 @app.route('/view_post_details/<int:post_id>')
@@ -127,7 +131,7 @@ def business_post_form():
             if "." in file.filename and file.filename.rsplit(".", 1)[1].lower() in Extensions:
                 filepath = os.path.join(Images, file.filename)
                 file.save(filepath)
-                post["image_filename"] = file.filename
+                post_data["image_filename"] = file.filename
         
         
         post = post_repository.create_post(**post_data)
@@ -153,133 +157,171 @@ def personal_post_form():
             "time_of_visit": request.form.get("timeOfVisit"),
             "rating": request.form.get("inlineRadioOptions"),
         }
+        # Uploads image file
+        file = request.files.get("addPictures")
+        if file and file.filename:
+            if "." in file.filename and file.filename.rsplit(".", 1)[1].lower() in Extensions:
+                filepath = os.path.join(Images, file.filename)
+                file.save(filepath)
+                post_data["image_filename"] = file.filename
 
         post = post_repository.create_post(**post_data)
         return redirect(url_for("view_personal_post", post_id=post.id))
     return render_template("personal_post_form.html")
 
-
-# INCOMPLETE
 @app.route("/edit_business_post/<int:post_id>", methods=["GET", "POST"])
 def edit_business_post(post_id):
-    post = posts.get(post_id)
+    post = post_repository.get_post_by_id(post_id)
     if not post:
         return "Post not found", 404
     if request.method == "POST":
-        post["title"] = request.form.get("postTitle")
-        post["country"] = request.form.get("countryVisited")
-        post["category"] = request.form.get("eventCategory")
-        post["description"] = request.form.get("postDescription")
-        post["zip_code"] = request.form.get("zipCode")
-        # ---undone
-        posts[post_id] = post
-        return redirect(url_for("view_business_post", post_id=post_id))
+        post_data = {
+            "title": request.form.get("postTitle"),
+            "description": request.form.get("postDescription"),
+            "country": request.form.get("countryVisited"),
+            "category": request.form.get("eventCategory"),
+            "posted_at": datetime.now(),
+            "type": "business",
+            # Business fields
+            "address_line_1": request.form.get("addressLine1"),
+            "city": request.form.get("city"),
+            "zip_code": request.form.get("zipCode"),
+            "state": request.form.get("state"),
+            "website_link": request.form.get("websiteLink"),
+            "phone_number": request.form.get("phoneNumber"),
+            "email": request.form.get("email"),
+            "hours_of_operation": request.form.get("hoursOfOperation"),
+        }
+        updated_post = post_repository.update_post(post_id, **post_data)
+        if updated_post:
+            return redirect(url_for("view_business_post", post_id=post_id))
+        else:
+            return "Error updating post", 500
     return render_template("edit_business_post.html", post=post)
 
-# INCOMPLETE
-@app.route("/delete_business_post/<int:post_id>")
-def delete_business_post(post_id):
-    if post_id in posts:
-        del posts[post_id]
-    return redirect(url_for("view_all_posts"))
-
-# INCOMPLETE
+@app.route("/delete_post/<int:post_id>", methods=["POST"])
+def delete_post(post_id):
+    success = post_repository.delete_post(post_id)
+    if success:
+        return redirect(url_for("all_posts"))
+    else:
+        return "Error deleting post", 500
+    
 @app.route("/edit_personal_post/<int:post_id>", methods=["GET", "POST"])
 def edit_personal_post(post_id):
-    post = posts.get(post_id)
+    post = post_repository.get_post_by_id(post_id)
     if not post:
         return "Post not found", 404
     if request.method == "POST":
-        post["title"] = request.form.get("postTitle")
-        post["country"] = request.form.get("countryVisited")
-        post["category"] = request.form.get("eventCategory")
-        post["description"] = request.form.get("postDescription")
-        post["rating"] = request.form.get("inlineRadioOptions")
-        post["trip_purpose"] = request.form.get("purposeOfTrip")
-        post["time_of_visit"] = request.form.get("timeOfVisit")
-        # ---undone
-        posts[post_id] = post
-        return redirect(url_for("view_personal_post", post_id=post_id))
+        # Collect data from form and update post
+        post_data = {
+            "title": request.form.get("postTitle"),
+            "description": request.form.get("postDescription"),
+            "country": request.form.get("countryVisited"),
+            "category": request.form.get("eventCategory"),
+            "posted_at": datetime.now(),
+            "type": "personal",
+            "trip_purpose": request.form.get("purposeOfTrip"),
+            "time_of_visit": request.form.get("timeOfVisit"),
+            "rating": request.form.get("inlineRadioOptions"),
+
+            # Include other fields as necessary
+        }
+        updated_post = post_repository.update_post(post_id, **post_data)
+        if updated_post:
+            return redirect(url_for("view_personal_post", post_id=post_id))
+        else:
+            return "Error updating post", 500
     return render_template("edit_personal_post.html", post=post)
 
-# INCOMPLETE
-@app.route("/delete_personal_post/<int:post_id>")
+@app.route("/delete_personal_post/<int:post_id>", methods=["POST"])
 def delete_personal_post(post_id):
-    if post_id in posts:
-        del posts[post_id]
-    return redirect(url_for("view_all_posts"))
-
+    success = post_repository.delete_post(post_id)
+    if success:
+        return redirect(url_for("all_posts"))
+    else:
+        return "Error deleting post", 500
 
 # Comment on a post section
 @app.route("/add_comment/<int:post_id>", methods=["POST"])
 def add_comment(post_id):
-    post = posts.get(post_id)
+    post = Post.query.get(post_id)
     if not post:
-        return "Post not found", 404
+        flash('Post not found', 'error')
+        return redirect(url_for('all_posts'))
+
     username = request.form.get("username")
     content = request.form.get("content")
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    comment = {
-        "username": username,
-        "content": content,
-        "timestamp": timestamp,
-        "edited": False,
-    }
-    post["comments"].append(comment)
-    if post["type"] == "business":
-        return redirect(url_for("view_business_post", post_id=post_id))
-    else:
-        return redirect(url_for("view_personal_post", post_id=post_id))
+    if not username or not content:
+        flash('Username and content are required.', 'error')
+        return redirect(url_for('view_personal_post' if post.type == 'personal' else 'view_business_post', post_id=post_id))
 
-# INCOMPLETE
-@app.route("/edit_comment/<int:post_id>/<int:comment_index>", methods=["POST"])
-def edit_comment(post_id, comment_index):
-    post = posts.get(post_id)
-    if not post or comment_index >= len(post["comments"]):
+    new_comment = Comment(username=username, content=content, post_id=post_id)
+    db.session.add(new_comment)
+    db.session.commit()
+
+    return redirect(url_for('view_personal_post' if post.type == 'personal' else 'view_business_post', post_id=post_id))
+
+@app.route("/edit_comment/<int:post_id>/<int:comment_id>", methods=["POST"])
+def edit_comment(post_id, comment_id):
+    edited_content = request.form.get('edited_content')
+    if not edited_content:
+        flash('Comment cannot be empty.', 'error')
+        return redirect(url_for('show_edit_comment_form', post_id=post_id, comment_id=comment_id))
+    
+    comment = Comment.query.get(comment_id)
+    if comment:
+        comment.content = edited_content
+        comment.edited = True
+        db.session.commit()
+        return redirect(url_for('view_post_details', post_id=post_id))
+    else:
+        flash('Comment not found.', 'error')
+        return redirect(url_for('all_posts'))
+
+@app.route("/edit_comment/<int:post_id>/<int:comment_id>")
+def show_edit_comment_form(post_id, comment_id):
+    post = post_repository.get_post_by_id(post_id)
+    comment = Comment.query.get(comment_id)
+    if not post or not comment:
+        flash("Post or Comment not found", "error")
+        return redirect(url_for('all_posts'))
+    return render_template("edit_comment.html", post_id=post_id, comment=comment)
+
+
+@app.route("/delete_comment/<int:post_id>/<int:comment_id>", methods=["POST"])
+def delete_comment(post_id, comment_id):
+    comment = Comment.query.get(comment_id)
+    if comment:
+        db.session.delete(comment)
+        db.session.commit()
+    else:
         return "Comment not found", 404
-    post["comments"][comment_index]["content"] = request.form.get("content")
-    post["comments"][comment_index]["edited"] = True
-    if post["type"] == "business":
-        return redirect(url_for("view_business_post", post_id=post_id))
-    else:
-        return redirect(url_for("view_personal_post", post_id=post_id))
 
-
-@app.route("/delete_comment/<int:post_id>/<int:comment_index>")
-def delete_comment(post_id, comment_index):
-    post = posts.get(post_id)
-    if not post or comment_index >= len(post["comments"]):
-        return "Comment not found", 404
-    del post["comments"][comment_index]
-    if post["type"] == "business":
-        return redirect(url_for("view_business_post", post_id=post_id))
-    else:
-        return redirect(url_for("view_personal_post", post_id=post_id))
+    post = Post.query.get(post_id)
+    if post:
+        if post.type == 'business':
+            return redirect(url_for('view_business_post', post_id=post_id))
+        else:
+            return redirect(url_for('view_personal_post', post_id=post_id))
+    return redirect(url_for('all_posts'))
 
 
 # View a business post by ID
 @app.route("/view_business_post/<int:post_id>")
 def view_business_post(post_id):
-    post = posts.get(post_id)
+    post = post_repository.get_post_by_id(post_id)
     if not post:
         return "Post not found", 404
     return render_template("view_business_post.html", post=post)
 
-
 # View a personal post by ID 
 @app.route("/view_personal_post/<int:post_id>")
 def view_personal_post(post_id):
-    post = posts.get(post_id)
+    post = post_repository.get_post_by_id(post_id)
     if not post:
         return "Post not found", 404
     return render_template("view_personal_post.html", post=post)
-
-# Delete a post by ID INCOMPLETE
-@app.route("/delete_post/<int:post_id>")
-def delete_post(post_id):
-    if post_id in posts:
-        del posts[post_id]
-    return redirect(url_for("index"))
 
 #Discover Page
 @app.get('/DiscoverPage')

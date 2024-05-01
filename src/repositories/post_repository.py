@@ -1,4 +1,4 @@
-from src.models.post import Post, db
+from src.models.post import Comment, Post, db
 
 class PostRepository:
     def get_all_posts(self):
@@ -31,3 +31,12 @@ class PostRepository:
             return True
         else:
             raise ValueError(f'Post with id {post_id} not found')
+    
+    def update_comment(self, comment_id, content):
+        comment = Comment.query.get(comment_id)
+        if comment:
+            comment.content = content
+            comment.edited = True
+            db.session.commit()
+            return True
+        return False

@@ -1,0 +1,110 @@
+{% extends "_layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Edit Business Post</h1>
+    <form method="post" action="{{ url_for('edit_business_post', post_id=post.id) }}" enctype="multipart/form-data">
+        <!-- Add hidden input to handle POST method -->
+        <input type="hidden" name="_method" value="PUT">
+
+        <h5 style="margin-top: 3rem">Country of Place</h5>
+        <div class="form-floating mb-4">
+            <select class="form-select" name="countryVisited" id="countryVisited" required>
+                <option value="">Select Country</option>
+                {% set countries = ["United States", "Canada", "France", "Italy", "Greece", "Jamaica", "Australia", "Brazil"] %}
+                {% for country in countries %}
+                <option value="{{ country }}" {% if post.country == country %}selected{% endif %}>{{ country }}</option>
+                {% endfor %}
+            </select>
+            <label for="countryVisited">Visited</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">Category of Place</h5>
+        <div class="form-floating mb-4">
+            <select class="form-select" name="eventCategory" id="eventCategory" required>
+                <option value="">Select Category</option>
+                {% set categories = ["Activity", "Hotel", "Food Delivery", "Transportation", "Restaurants", "Cruises"] %}
+                {% for category in categories %}
+                <option value="{{ category }}" {% if post.category == category %}selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+            <label for="eventCategory">Event</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">Name of Location</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="postTitle" id="postTitle" required value="{{ post.title }}">
+            <label for="postTitle">Name</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">Location Description</h5>
+        <div class="form-floating mb-4">
+            <textarea class="form-control" name="postDescription" id="postDescription" style="height: 100px;" required>{{ post.description }}</textarea>
+            <label for="postDescription">Write a Description</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">Address Line 1</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="addressLine1" id="addressLine1" required value="{{ post.address_line_1 }}">
+            <label for="addressLine1">Address Line 1</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">City</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="city" id="city" required value="{{ post.city }}">
+            <label for="city">City</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">State</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="state" id="state" required value="{{ post.state }}">
+            <label for="state">State</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">ZIP Code</h5>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="zipCode" id="zipCode" required value="{{ post.zip_code }}">
+            <label for="zipCode">ZIP Code</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">Website Link</h5>
+        <div class="form-floating mb-4">
+            <input type="url" class="form-control" name="websiteLink" id="websiteLink" required value="{{ post.website_link }}">
+            <label for="websiteLink">Website Link</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">Phone Number</h5>
+        <div class="form-floating mb-4">
+            <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber" required value="{{ post.phone_number }}">
+            <label for="phoneNumber">Phone Number</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">Email</h5>
+        <div class="form-floating mb-4">
+            <input type="email" class="form-control" name="email" id="email" required value="{{ post.email }}">
+            <label for="email">Email</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">Hours of operation</h5>
+        <div class="form-floating mb-4">
+            <textarea class="form-control" name="hoursOfOperation" id="hoursOfOperation" style="height: 100px;" required>{{ post.hours_of_operation }}</textarea>
+            <label for="hoursOfOperation">Hours of operation</label>
+        </div>
+
+        <h5 style="margin-top: 3rem">Add Pictures <span style="font-weight: lighter;">(optional)</span></h5>
+        <div class="mt-3 mb-5">
+            <input class="form-control" type="file" name="addPictures" id="addPictures" multiple>
+        </div>
+
+        <div class="mt-5 mb-5 form-check">
+            <input type="checkbox" class="form-check-input" name="agreementCheck" id="agreementCheck" {% if post.agreement %}checked{% endif %} required>
+            <label class="form-check-label" for="agreementCheck">
+                By submitting a post about our business on this platform, I, as an authorized representative of the business, confirm that the information provided is accurate and reflects the genuine attributes and offerings of our establishment. I understand that this platform does not tolerate misleading or false representations, and I agree to abide by its terms and conditions
+            </label>
+        </div>
+        
+        <div class="d-grid gap-2 mb-5">
+            <button class="btn btn-dark btn-lg" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
