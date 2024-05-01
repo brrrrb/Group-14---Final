@@ -192,19 +192,6 @@
     cursor: pointer;
   }
 
-
-
-  .btn {
-    border-radius: 30px;
-    padding: 10px 24px;
-    font-size: 25px;
-    line-height: 1.5;
-    border: 6px solid rgba(0, 0, 0, 0.125);
-    margin-bottom: 1rem; 
-
-  }
-
-
   #googleSignIn {
     background-color: #fff;
     color: #000;
