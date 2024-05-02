@@ -12,10 +12,12 @@
             <h2>Personal Posts</h2>
             {% for post in personal_posts %}
                 <div class="user-post">
-                    <h3>{{ post.title }}</h3>
-                    <p>{{ post.description }}</p>
-                    <p>Posted by User ID: {{ post.user_id }}</p>
-                    <p>Posted at: {{ post.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <a href="http://127.0.0.1:5000/view_personal_post/{{ post.id }}">
+                        <h3>{{ post.title }}</h3>
+                        <p>{{ post.description }}</p>
+                        <p>Posted by User ID: {{ post.user_id }}</p>
+                        <p>Posted at: {{ post.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    </a>
                 </div>
             {% endfor %}
         </div>
@@ -23,10 +25,12 @@
             <h2>Business Posts</h2>
             {% for post in business_posts %}
                 <div class="user-post">
-                    <h3>{{ post.title }}</h3>
-                    <p>{{ post.description }}</p>
-                    <p>Posted by User ID: {{ post.user_id }}</p>
-                    <p>Posted at: {{ post.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <a href="http://127.0.0.1:5000/view_business_post/{{ post.id }}">
+                        <h3>{{ post.title }}</h3>
+                        <p>{{ post.description }}</p>
+                        <p>Posted by User ID: {{ post.user_id }}</p>
+                        <p>Posted at: {{ post.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    </a>
                 </div>
             {% endfor %}
         </div>
