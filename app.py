@@ -407,12 +407,15 @@ def discover_page():
 
 @app.get('/discover_page_selected')
 def discover_page_selected():
-    #posts = Post.query.limit(2).all()
-    
     selected_country = request.args.get('country')
     if selected_country is None:
-        selected_country = "None" 
-    return render_template('discover_page_selected.html', selected_country=selected_country)
+        selected_country = "None"
+    if selected_country != "None":
+        posts = Post.query.filter_by(country=selected_country).all()
+    else:
+        posts = Post.query.all()
+    return render_template('discover_page_selected.html', selected_country=selected_country, posts=posts)
+
 
 @app.get("/all_itineraries_page")
 def all_itineraries():
