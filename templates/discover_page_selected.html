@@ -8,14 +8,26 @@
         <a><img src="/static/images/vacationpic.jpg"></a>
     </div>    
     <div class="user-posts">
-        {% for post in posts %}
-            <div class="user-post">
-                <h2>Title: {{ post.title }}</h2>
-                <p>Caption: {{ post.description }}</p>
-                <p>Posted by User: {{ post.user_id }}</p>
-                <p>Posted {{ post.posted_at }}</p>
-            </div>
-        {% endfor %}
+        <div class="personal-posts">
+            <h2>Personal Posts</h2>
+            {% for post in personal_posts %}
+                <div class="user-post">
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.description }}</p>
+                    <p>Posted by User ID: {{ post.user_id }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="business-posts">
+            <h2>Business Posts</h2>
+            {% for post in business_posts %}
+                <div class="user-post">
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.description }}</p>
+                    <p>Posted by User ID: {{ post.user_id }}</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}

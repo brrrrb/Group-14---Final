@@ -4,6 +4,7 @@
   justify-content: center; 
 }
 
+
 .disimage {
   margin-top: 20px;
 }
@@ -44,16 +45,30 @@
 }
 
 .user-posts {
-  display: flex; 
-  justify-content: space-between; 
-  margin-top: 20px; 
+  display: flex;
+  justify-content: space-around; /* Adjust as needed */
+  flex-wrap: wrap;
+}
+
+.personal-posts,
+.business-posts {
+  width: calc(50% - 20px); /* Adjust width and margin as needed */
+  margin: 0 10px; /* Adjust margin as needed */
 }
 
 .user-post {
-  width: 48%; 
-  padding: 10px; 
-  border: 1px solid #ccc; 
-  box-sizing: border-box; 
+  background-color: #f2f2f2; /* Example background color */
+  border: 1px solid #ddd; /* Example border */
+  padding: 10px; /* Adjust padding as needed */
+  margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.disimage {
+  text-align: center;
+}
+
+.disimage img {
+  max-width: 100%;
 }
 
   .signin-button {

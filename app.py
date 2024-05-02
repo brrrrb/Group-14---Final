@@ -410,11 +410,12 @@ def discover_page_selected():
     selected_country = request.args.get('country')
     if selected_country is None:
         selected_country = "None"
-    if selected_country != "None":
-        posts = Post.query.filter_by(country=selected_country).all()
-    else:
-        posts = Post.query.all()
-    return render_template('discover_page_selected.html', selected_country=selected_country, posts=posts)
+        
+    personal_posts = Post.query.filter_by(type='personal', country=selected_country).all()
+    business_posts = Post.query.filter_by(type='business', country=selected_country).all()
+
+    return render_template('discover_page_selected.html', selected_country=selected_country, personal_posts=personal_posts, business_posts=business_posts)
+
 
 
 @app.get("/all_itineraries_page")
