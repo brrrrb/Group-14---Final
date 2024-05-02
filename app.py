@@ -110,7 +110,7 @@ def signup():
     session["username"] = user["username"]
     session["first_name"] = user["first_name"]
     session["last_name"] = user["last_name"]
-    return redirect("/secret")
+    return redirect("/index")
 
 
 @app.route("/login", methods=["POST"])
@@ -153,10 +153,10 @@ def signup_business():
         session["user_id"] = user["user_id"]
         session["username"] = user["username"]
         session["company_name"] = user["company_name"]
-        return redirect(url_for('index'))
+        return redirect(url_for("index"))
     except Exception as e:
         return abort(400, str(e))
-  
+
 
 @app.route("/logout")
 def logout():
