@@ -1,141 +1,118 @@
-document.addEventListener('DOMContentLoaded', function() { // DOMcontent allows javascript to interact with DOM without waiting for external resources to load such as images and stylesheetts
-    //listen to specfic event on the document 
+document.addEventListener('DOMContentLoaded', function() {
+    // Sign In button interaction for username modal
+    var signInBtn = document.getElementById("signInBtn");
+    if (signInBtn) {
+        signInBtn.addEventListener('click', function() {
+            var usernameSignInModal = new bootstrap.Modal(document.getElementById('usernameSignInModal'));
+            usernameSignInModal.show();
+        });
+    }
+
+    // Email Sign In button interaction
+    var emailBtn = document.getElementById("emailBtn");
+    if (emailBtn) {
+        emailBtn.addEventListener('click', function() {
+            var emailSignInModal = new bootstrap.Modal(document.getElementById('emailSignInModal'));
+            emailSignInModal.show();
+        });
+    }
     
-        var signInBtn = document.getElementById("signInBtn");
-        if (signInBtn) {
-            signInBtn.addEventListener('click', function() {
-                var myModal = new bootstrap.Modal(document.getElementById('myModal'));
-                myModal.show();
-            });
-        }
-    
-    
-    
-        var emailBtn = document.getElementById("emailBtn");
-        if (emailBtn) {
-            emailBtn.addEventListener('click', function() {
-                var emailSignInModal = new bootstrap.Modal(document.getElementById('emailSignInModal'));
-                emailSignInModal.show();
-            });
-        }
-        
-       
-       
-         var joinNowLink = document.getElementById("joinNow");
+    // Join Now link interaction to trigger join modal
+    var joinNowLink = document.getElementById("joinNow");
     if (joinNowLink) {
         joinNowLink.addEventListener('click', function(event) {
             event.preventDefault();
-
             var emailSignInModalInstance = bootstrap.Modal.getInstance(document.getElementById('emailSignInModal'));
             if (emailSignInModalInstance) {
-                // Listen for the modal to fully hide before showing the joinModal
-                var onEmailModalHidden = function() {
-                    // Remove the event listener to prevent potential duplication in future invocations
-                    emailSignInModalInstance._element.removeEventListener('hidden.bs.modal', onEmailModalHidden);
-                    
+                emailSignInModalInstance._element.addEventListener('hidden.bs.modal', function() {
+                    emailSignInModalInstance._element.removeEventListener('hidden.bs.modal', arguments.callee);
                     var joinModalInstance = new bootstrap.Modal(document.getElementById('joinModal'));
                     joinModalInstance.show();
-                };
-
-                emailSignInModalInstance._element.addEventListener('hidden.bs.modal', onEmailModalHidden);
+                });
                 emailSignInModalInstance.hide();
             } else {
-                // Directly show the joinModal if for some reason the emailSignInModal instance is not available
                 var joinModalInstance = new bootstrap.Modal(document.getElementById('joinModal'));
                 joinModalInstance.show();
             }
         });
     }
-       
-    
-       
-        var businessAccountBtn = document.getElementById("businessAccount");
+
+    // Business account button interaction to show business modal
+    var businessAccountBtn = document.getElementById("businessAccount");
+    if (businessAccountBtn) {
         businessAccountBtn.addEventListener('click', function() {
             var joinModalInstance = bootstrap.Modal.getInstance(document.getElementById('joinModal'));
             joinModalInstance.hide();
-       
-       
             var businessAccountModal = new bootstrap.Modal(document.getElementById('businessAccountModal'));
             businessAccountModal.show();
         });
-       
-       
-       
-       
-        var individualAccountBtn = document.getElementById("individualAccount");
+    }
+
+    // Individual account button interaction to show individual modal
+    var individualAccountBtn = document.getElementById("individualAccount");
+    if (individualAccountBtn) {
         individualAccountBtn.addEventListener('click', function() {
             var joinModalInstance = bootstrap.Modal.getInstance(document.getElementById('joinModal'));
             joinModalInstance.hide();
-       
-       
             var individualAccountModal = new bootstrap.Modal(document.getElementById('individualAccountModal'));
             individualAccountModal.show();
         });
+    }
 
-
-
-
-
-
-        var signInLinkFromJoinModal = document.getElementById("signInLinkFromJoinModal");
-        if (signInLinkFromJoinModal) {
-            signInLinkFromJoinModal.addEventListener('click', function(event) {
-                event.preventDefault();
-    
-                // Hide the joinModal first
-                var joinModalInstance = bootstrap.Modal.getInstance(document.getElementById('joinModal'));
-                if (joinModalInstance) {
-                    joinModalInstance.hide();
-                }
-    
-                // Then, show the myModal
-                // Wait for the joinModal to be completely hidden before showing myModal
+    // Handling sign-in from Join modal
+    var signInLinkFromJoinModal = document.getElementById("signInLinkFromJoinModal");
+    if (signInLinkFromJoinModal) {
+        signInLinkFromJoinModal.addEventListener('click', function(event) {
+            event.preventDefault();
+            var joinModalInstance = bootstrap.Modal.getInstance(document.getElementById('joinModal'));
+            if (joinModalInstance) {
+                joinModalInstance.hide();
                 var myModalInstance = new bootstrap.Modal(document.getElementById('myModal'));
                 myModalInstance.show();
-            });
-        }
+            }
+        });
+    }
 
-
-        var signInFromIndividualAccount = document.getElementById('signInFromIndividualAccount');
+    // Sign in from individual account interaction
+    var signInFromIndividualAccount = document.getElementById('signInFromIndividualAccount');
     if (signInFromIndividualAccount) {
         signInFromIndividualAccount.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default action of the link
-
-            // Hide the individualAccountModal
+            event.preventDefault();
             var individualAccountModalInstance = bootstrap.Modal.getInstance(document.getElementById('individualAccountModal'));
             if (individualAccountModalInstance) {
                 individualAccountModalInstance.hide();
+                individualAccountModalInstance._element.addEventListener('hidden.bs.modal', function () {
+                    var myModalInstance = new bootstrap.Modal(document.getElementById('myModal'));
+                    myModalInstance.show();
+                }, { once: true });
             }
-
-            // Wait for the individualAccountModal to be hidden before showing myModal
-            individualAccountModalInstance._element.addEventListener('hidden.bs.modal', function () {
-                var myModalInstance = new bootstrap.Modal(document.getElementById('myModal'));
-                myModalInstance.show();
-            }, { once: true }); // Use the {once: true} option to automatically remove the event listener after it fires
         });
     }
 
-
+    // Sign in from business account interaction
     var signInFromBusinessAccount = document.getElementById('signInFromBusinessAccount');
     if (signInFromBusinessAccount) {
         signInFromBusinessAccount.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default action of the link
-
-            // Hide the businessAccountModal first
+            event.preventDefault();
             var businessAccountModalInstance = bootstrap.Modal.getInstance(document.getElementById('businessAccountModal'));
             if (businessAccountModalInstance) {
                 businessAccountModalInstance.hide();
+                businessAccountModalInstance._element.addEventListener('hidden.bs.modal', function () {
+                    var myModalInstance = new bootstrap.Modal(document.getElementById('myModal'));
+                    myModalInstance.show();
+                }, { once: true });
             }
-
-            // Wait for the businessAccountModal to be hidden before showing myModal
-            businessAccountModalInstance._element.addEventListener('hidden.bs.modal', function () {
-                var myModalInstance = new bootstrap.Modal(document.getElementById('myModal'));
-                myModalInstance.show();
-            }, { once: true }); // Use the {once: true} option to automatically remove the event listener after it fires
         });
     }
+});
 
 
-       
-       
-       });
+
+function validateBusinessForm() {
+    var einNumber = document.getElementById('einNumber').value;
+    if (!/^[0-9]{9}$/.test(einNumber)) {
+        alert("EIN must be exactly 9 digits");
+        return false;
+    }
+    return true;
+}

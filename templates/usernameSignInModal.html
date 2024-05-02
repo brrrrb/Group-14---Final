@@ -1,0 +1,36 @@
+<!-- Username Sign In Modal -->
+<div id="usernameSignInModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Welcome Back</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="usernameSignInForm" class="sign-in-form" method="post" action="/login">
+                    <div class="mb-3">
+                        <label for="loginUsername">Username</label>
+                        <input type="text" id="loginUsername" name="username" class="form-control" placeholder="Username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" class="form-control" placeholder="Password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary signin-btn">Sign In</button>
+                    </div>
+                    <p class="membership-invite text-center my-2">
+                        ----Not a member?---- <br>
+                        <a href="#" id="joinNow" style="color:blue; cursor:pointer;">JOIN</a>
+                        to unlock the best of ExplorationGuide
+                    </p>
+                    <div class="terms mt-4 text-center w-100">
+                        <p>By proceeding, you agree to our <a href="#">Terms of Use</a> and confirm you have read our <a href="#">Privacy and Cookie Statement</a>.</p>
+                        <p>This site is protected by reCAPTCHA and the Google <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a> apply.</p>
+                    </form>
+                </div>                    
+            </div>
+        </div>
+    </div>
+  </div>
+  

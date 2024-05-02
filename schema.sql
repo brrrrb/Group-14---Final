@@ -1,9 +1,11 @@
--- Create User/ signup
 CREATE TABLE app_user (
-    user_id SERIAL,
-    Email VARCHAR(255) UNIQUE NOT NULL,
-    Password VARCHAR(255) NOT NULL,
-    PRIMARY KEY (user_id)
+  user_id SERIAL PRIMARY KEY,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  company_name VARCHAR(255),
+  ein_number VARCHAR(9) UNIQUE
 );
 
 -- Create Posts table

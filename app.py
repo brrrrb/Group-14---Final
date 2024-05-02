@@ -1,17 +1,21 @@
 import os
+import sys
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, session, flash
 from datetime import datetime
-from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
 
 
 
-from dotenv import load_dotenv
 load_dotenv()
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
 
 
 app = Flask(__name__)
+
+app.secret_key = os.getenv('APP_SECRET_KEY')
 bcrypt = Bcrypt(app)
 
 # Database configuration Co-Pilot Assistance
@@ -25,7 +29,9 @@ from src.models.itinerary import Itinerary
 from src.repositories.itinerary_repository import get_itinerary_repo
 from src.repositories.post_repository import PostRepository
 from src.models.post import Post, Comment
-#from src.repositories.user_repository import user_repository
+
+
+from src.repositories.user_repository import does_username_exist, create_user, get_user_by_username, get_user_by_id, create_business_user
 
 
 
@@ -46,45 +52,116 @@ day_number = 1
 #HOME PAGE 
 @app.route('/')
 def index():
+    if 'user_id' in session:
+        return redirect('/secret')
     return render_template('index.html')
 
-@app.route('/sign-in', methods=['POST'])
-def sign_in():
-    email = request.form['email']
+@app.route('/secret')
+def secret_page():
+    if 'user_id' not in session:
+        return redirect('/')
+
+    user = get_user_by_id(session['user_id'])
+    if not user:
+        flash('User not found. Please log in again.', 'error')
+        return redirect('/login')
+
+    # Check what data is available and create a display name accordingly
+    if 'company_name' in user and user['company_name']:
+        display_name = user['company_name']
+    elif 'first_name' in user and 'last_name' in user and user['first_name'] and user['last_name']:
+        display_name = f"{user['first_name']} {user['last_name']}"
+    else:
+        display_name = "Anonymous"  # Default name if no name details are available
+
+    return render_template('secret.html', user=user, display_name=display_name)
+
+
+
+
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    username = request.form['username']
     password = request.form['password']
-    return redirect(url_for('index'))
-
-
-
-@app.post('/join')
-def join():
-    email = request.form.get('email')
-    password = request.form.get('password')
-    if not email or not password:
-        abort(400)
-   # if user_repository.does_email_exist(email):
-       # abort(400, "Email already exists")
+    first_name = request.form['firstName']
+    last_name = request.form['lastName']
+    if not username or not password or not first_name or not last_name:
+        abort(400, "All fields are required")
+    if does_username_exist(username):
+        abort(400, 'Username already exists')
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    #user_repository.create_user(email, hashed_password)
-   # user_info = user_repository.create_user(email, password)
-    
-   # if isinstance(user_info, Exception):
-    #    abort(500, "Failed to create user")
-    #return redirect('/')
+    user = create_user(first_name, last_name, username, hashed_password)
+    session['user_id'] = user['user_id']  # Stores user ID in session immediately after signup
+    session['username'] = user['username']  # Stores username in session
+    session['first_name'] = user['first_name']
+    session['last_name'] = user['last_name']
+    return redirect('/secret')
 
+
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    user = get_user_by_username(username)
+    if user and bcrypt.check_password_hash(user['hashed_password'], password):
+        session['user_id'] = user['user_id']
+        session['username'] = username
+        if user.get('company_name'):
+            session['company_name'] = user['company_name']
+            session.pop('first_name', None)
+            session.pop('last_name', None)
+        else:
+            session['first_name'] = user.get('first_name')
+            session['last_name'] = user.get('last_name')
+            session.pop('company_name', None)
+        return redirect('/secret')
+    else:
+        return abort(401, 'Invalid credentials')
+
+
+
+@app.route('/signup_business', methods=['POST'])
+def signup_business():
+    company_name = request.form.get('companyName')
+    ein_number = request.form.get('einNumber')
+    username = request.form.get('businessUsername')
+    password = request.form.get('businessPassword')
+
+    if not company_name or not ein_number or not username or not password:
+        abort(400, "All fields are required")
     
-   
-# @app.route('/join', methods=['POST'])
-# def join():
-#     account_type = request.form.get('account_type') 
-#     if account_type == 'individual':
-#         first_name = request.form['firstName']
-#         last_name = request.form['lastName']
-#     elif account_type == 'business':
-#         company_name = request.form['companyName']
-#         ein_number = request.form['einNumber']
+    if len(ein_number) != 9 or not ein_number.isdigit():
+        abort(400, "EIN must be exactly 9 digits")
     
-#     return redirect(url_for('index'))
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    try:
+        user = create_business_user(company_name, ein_number, username, hashed_password)
+        session['user_id'] = user['user_id']
+        session['username'] = user['username']
+        session['company_name'] = user['company_name']
+        return redirect('/secret')
+    except Exception as e:
+        return abort(400, str(e))
+
+
+
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('username', None)
+    session.pop('first_name', None)
+    session.pop('last_name', None)
+    session.pop('company_name', None)
+    session.clear()
+    return redirect('/')
+
+
+
 
 
 

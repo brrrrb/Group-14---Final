@@ -90,10 +90,17 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/itinerary_creation">Plan Your Trip</a>
-                        </li>
-                        <li class="nav-item">
-                            <li><button id="signInBtn" class="signin-button">Sign In</button></li>
+                            {% if 'user_id' in session %}
+                                {% if 'company_name' in session %}
+                                    <a href="/logout" class="nav-link">Logout ({{ session['company_name'] }})</a>
+                                {% elif 'first_name' in session and 'last_name' in session %}
+                                    <a href="/logout" class="nav-link">Logout ({{ session['first_name'] }} {{ session['last_name'] }})</a>
+                                {% else %}
+                                    <a href="/logout" class="nav-link">Logout</a>
+                                {% endif %}
+                            {% else %}
+                                <button id="signInBtn" class="signin-button btn btn-outline-primary">Sign In</button>
+                            {% endif %}
 
                         </li>
                     </ul>
