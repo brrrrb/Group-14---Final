@@ -90,6 +90,9 @@
                             </ul>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/itinerary_creation">Plan Your Trip</a>
+                        </li>
+                        <li class="nav-item">
                             {% if 'user_id' in session %}
                                 {% if 'company_name' in session %}
                                     <a href="/logout" class="nav-link">Logout ({{ session['company_name'] }})</a>
