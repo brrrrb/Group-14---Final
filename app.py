@@ -110,7 +110,7 @@ def signup():
     session["username"] = user["username"]
     session["first_name"] = user["first_name"]
     session["last_name"] = user["last_name"]
-    return redirect("/index")
+    return redirect(url_for("index"))
 
 
 @app.route("/login", methods=["POST"])
