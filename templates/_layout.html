@@ -12,50 +12,40 @@
 
     <title>{% block title %}{% endblock %}</title>
     <style>
-
-        html,
-        body {
+        html, body {
             height: 100%;
             margin: 0;
         }
-
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
-
         main {
             flex: 1;
         }
-
         header {
             color: black !important;
             background-color: rgb(184, 199, 217);
         }
-
         footer {
             flex-shrink: 0;
             color: black !important;
             background-color: rgb(184, 199, 217);
         }
-
         footer a {
             color: black !important;
         }
-
         .navbar-brand {
             color: black !important;
             font-size: 50px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
-
         .nav-link {
             color: black !important;
             font-size: 20px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
-
         .form-floating label {
             background: none;
         }
@@ -84,7 +74,7 @@
                                 Post
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/all_posts">View All Posts</a></li>
+                                <li><a class="dropdown-item" href="/all_posts">All Posts</a></li>
                                 <li><a class="dropdown-item" href="/business_post_form">Business Post</a></li>
                                 <li><a class="dropdown-item" href="/personal_post_form">Personal Post</a></li>
                             </ul>
@@ -104,8 +94,7 @@
                             {% else %}
                                 <button id="signInBtn" class="signin-button btn btn-outline-primary">Sign In</button>
                             {% endif %}
-
-                        </li>
+                        </li>                                               
                     </ul>
                 </div>
             </div>
@@ -114,7 +103,6 @@
     <main>
         <div class="container">
             {% block content %}
-
             {% endblock %}
         </div>
     </main>
@@ -135,5 +123,4 @@
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
-
 </html>
