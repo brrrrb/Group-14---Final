@@ -35,7 +35,7 @@
             <label for="eventCategory">Event</label>
         </div>
         <!-- Post Title -->
-        <h5 style="margin-top: 3rem">Post Tile</h5>
+        <h5 style="margin-top: 3rem">Post Title</h5>
         <div class="form-floating mb-4">
             <input type="text" class="form-control" name="postTitle" id="postTitle" placeholder="Title" required>
             <label for="postTitle">Title</label>
@@ -130,4 +130,8 @@
         </div>
     </form>
 </div>
+{% include 'usernameSignInModal.html' %} 
+{% include 'joinModal.html' %} 
+{% include 'individualAccountModal.html' %}
+{% include 'businessAccountModal.html' %}
 {% endblock %}

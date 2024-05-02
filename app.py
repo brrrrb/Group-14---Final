@@ -52,9 +52,8 @@ day_number = 1
 #HOME PAGE 
 @app.route('/')
 def index():
-    if 'user_id' in session:
-        return redirect('/secret')
-    return render_template('index.html')
+   return render_template('index.html')
+
 
 @app.route('/secret')
 def secret_page():
@@ -72,7 +71,7 @@ def secret_page():
     elif 'first_name' in user and 'last_name' in user and user['first_name'] and user['last_name']:
         display_name = f"{user['first_name']} {user['last_name']}"
     else:
-        display_name = "Anonymous"  # Default name if no name details are available
+        display_name = "Anonymous"  
 
     return render_template('secret.html', user=user, display_name=display_name)
 
@@ -92,34 +91,34 @@ def signup():
         abort(400, 'Username already exists')
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     user = create_user(first_name, last_name, username, hashed_password)
-    session['user_id'] = user['user_id']  # Stores user ID in session immediately after signup
-    session['username'] = user['username']  # Stores username in session
+    session['user_id'] = user['user_id'] 
+    session['username'] = user['username']  
     session['first_name'] = user['first_name']
     session['last_name'] = user['last_name']
     return redirect('/secret')
 
 
 
-
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
-    user = get_user_by_username(username)
-    if user and bcrypt.check_password_hash(user['hashed_password'], password):
-        session['user_id'] = user['user_id']
-        session['username'] = username
-        if user.get('company_name'):
-            session['company_name'] = user['company_name']
-            session.pop('first_name', None)
-            session.pop('last_name', None)
-        else:
-            session['first_name'] = user.get('first_name')
-            session['last_name'] = user.get('last_name')
-            session.pop('company_name', None)
-        return redirect('/secret')
-    else:
-        return abort(401, 'Invalid credentials')
+   username = request.form['username']
+   password = request.form['password']
+   user = get_user_by_username(username)
+   if user and bcrypt.check_password_hash(user['hashed_password'], password):
+       session['user_id'] = user['user_id']
+       session['username'] = username
+       if user.get('company_name'):
+           session['company_name'] = user['company_name']
+           session.pop('first_name', None)
+           session.pop('last_name', None)
+       else:
+           session['first_name'] = user.get('first_name')
+           session['last_name'] = user.get('last_name')
+           session.pop('company_name', None)
+       return redirect('/')
+   else:
+       return abort(401, 'Invalid credentials')
+
 
 
 
@@ -142,7 +141,7 @@ def signup_business():
         session['user_id'] = user['user_id']
         session['username'] = user['username']
         session['company_name'] = user['company_name']
-        return redirect('/secret')
+        return redirect('/index')
     except Exception as e:
         return abort(400, str(e))
 

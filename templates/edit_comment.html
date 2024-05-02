@@ -11,4 +11,8 @@
         <a href="{{ url_for('view_post_details', post_id=post_id) }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+{% include 'usernameSignInModal.html' %} 
+{% include 'joinModal.html' %} 
+{% include 'individualAccountModal.html' %}
+{% include 'businessAccountModal.html' %}
 {% endblock %}
