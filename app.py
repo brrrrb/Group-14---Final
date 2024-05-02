@@ -37,6 +37,13 @@ db = SQLAlchemy(app)
 
 from src.models.itinerary import Itinerary
 from src.repositories.itinerary_repository import get_itinerary_repo
+# from src.repositories.itinerary_repository import get_all_itineraries
+# from src.repositories.itinerary_repository import create_itinerary
+# from src.repositories.itinerary_repository import get_itinerary_by_id
+# from src.repositories.itinerary_repository import update_itinerary
+# from src.repositories.itinerary_repository import delete_itinerary
+
+
 from src.repositories.post_repository import PostRepository
 from src.models.post import Post, Comment
 
